@@ -1,0 +1,78 @@
+using System;
+
+class BankingApp
+{
+    static void Main()
+    {
+        decimal balance = 0.0m;  // Variable to store current balance
+        decimal amount;         // Variable to store deposit or withdrawal amount
+        int choice;             // Menu choice
+        bool exit = false;
+
+        while (!exit)
+        {
+            Console.WriteLine("\n--- Simple Banking Application ---");
+            Console.WriteLine("1. Deposit Money");
+            Console.WriteLine("2. Withdraw Money");
+            Console.WriteLine("3. Check Balance");
+            Console.WriteLine("4. Exit");
+            Console.Write("Please select an option (1-4): ");
+
+            string input = Console.ReadLine();
+            if (!int.TryParse(input, out choice))
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
+                continue;
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Enter amount to deposit: ");
+                    if (decimal.TryParse(Console.ReadLine(), out amount) && amount > 0)
+                    {
+                        balance += amount;
+                        Console.WriteLine($"Successfully deposited ${amount:F2}. New balance: ${balance:F2}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid amount. Please enter a positive number.");
+                    }
+                    break;
+
+                case 2:
+                    Console.Write("Enter amount to withdraw: ");
+                    if (decimal.TryParse(Console.ReadLine(), out amount) && amount > 0)
+                    {
+                        if (amount <= balance)
+                        {
+                            balance -= amount;
+                            Console.WriteLine($"Successfully withdrew ${amount:F2}. New balance: ${balance:F2}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Insufficient funds. Withdrawal canceled.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid amount. Please enter a positive number.");
+                    }
+                    break;
+
+                case 3:
+                    Console.WriteLine($"Current balance: ${balance:F2}");
+                    break;
+
+                case 4:
+                    Console.WriteLine("Thank you for using the banking application. Goodbye!");
+                    exit = true;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
+                    break;
+            }
+        }
+    }
+}
